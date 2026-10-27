@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS job_portal;
+USE job_portal;
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(120) UNIQUE NOT NULL,
+  skills TEXT
+);
+CREATE TABLE jobs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(120) NOT NULL,
+  company VARCHAR(120) NOT NULL,
+  description TEXT NOT NULL,
+  skills TEXT NOT NULL
+);
+CREATE TABLE recommendations (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL, job_id INT NOT NULL,
+  score FLOAT NOT NULL, missing_skills TEXT,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (job_id) REFERENCES jobs(id)
+);
+CREATE TABLE applications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL, job_id INT NOT NULL,
+  applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (job_id) REFERENCES jobs(id)
+);
